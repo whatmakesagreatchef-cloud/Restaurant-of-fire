@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Bear Mode — Restaurant Strategy Sim</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🐻</div>
+      <div>
+        <div class="title">BEAR MODE</div>
+        <div class="sub">Turn-based restaurant strategy sim (Clientele • Systems • Rivalry)</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btnNewSeason" class="primary">New Season</button>
+      <button id="btnSave">Save</button>
+      <button id="btnLoad">Load</button>
+      <button id="btnReset" class="danger">Reset</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="play">Play</button>
+    <button class="tab" data-tab="restaurant">Restaurant</button>
+    <button class="tab" data-tab="market">Staff Market</button>
+    <button class="tab" data-tab="rivals">Rivals</button>
+    <button class="tab" data-tab="leader">Leaderboards</button>
+    <button class="tab" data-tab="help">Help</button>
+  </nav>
+
+  <main class="wrap">
+    <section class="card" id="onboarding"></section>
+
+    <section class="card tabpane" id="tab-play"></section>
+    <section class="card tabpane hidden" id="tab-restaurant"></section>
+    <section class="card tabpane hidden" id="tab-market"></section>
+    <section class="card tabpane hidden" id="tab-rivals"></section>
+    <section class="card tabpane hidden" id="tab-leader"></section>
+    <section class="card tabpane hidden" id="tab-help"></section>
+  </main>
+
+  <footer class="footer">
+    <div>Offline “multiplayer simulator” MVP — built for GitHub Pages. Data saves to localStorage.</div>
+  </footer>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
