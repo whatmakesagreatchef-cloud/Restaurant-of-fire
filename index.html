@@ -3,50 +3,112 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Bear Mode — Restaurant Strategy Sim</title>
+  <title>Bear Mode — Rubric Tester</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">🐻</div>
-      <div>
-        <div class="title">BEAR MODE</div>
-        <div class="sub">Turn-based restaurant strategy sim (Clientele • Systems • Rivalry)</div>
-      </div>
+  <header class="top">
+    <div>
+      <div class="title">Bear Mode — Rubric Tester</div>
+      <div class="sub">Test Customer + Flavour rubrics, segment weighting, retention & review outputs.</div>
     </div>
     <div class="actions">
-      <button id="btnNewSeason" class="primary">New Season</button>
-      <button id="btnSave">Save</button>
-      <button id="btnLoad">Load</button>
-      <button id="btnReset" class="danger">Reset</button>
+      <button id="btnSample">Load sample</button>
+      <button id="btnExport">Export JSON</button>
+      <button id="btnClear" class="danger">Clear</button>
     </div>
   </header>
 
-  <nav class="tabs">
-    <button class="tab active" data-tab="play">Play</button>
-    <button class="tab" data-tab="restaurant">Restaurant</button>
-    <button class="tab" data-tab="market">Staff Market</button>
-    <button class="tab" data-tab="rivals">Rivals</button>
-    <button class="tab" data-tab="leader">Leaderboards</button>
-    <button class="tab" data-tab="help">Help</button>
-  </nav>
+  <main class="grid">
+    <section class="card">
+      <h2>Customer Rubric (1–5)</h2>
+      <div class="hint">Score each category, then see totals and segment-specific satisfaction.</div>
 
-  <main class="wrap">
-    <section class="card" id="onboarding"></section>
+      <div class="form" id="custForm"></div>
 
-    <section class="card tabpane" id="tab-play"></section>
-    <section class="card tabpane hidden" id="tab-restaurant"></section>
-    <section class="card tabpane hidden" id="tab-market"></section>
-    <section class="card tabpane hidden" id="tab-rivals"></section>
-    <section class="card tabpane hidden" id="tab-leader"></section>
-    <section class="card tabpane hidden" id="tab-help"></section>
+      <div class="row">
+        <div class="mini">
+          <h3>Customer Total</h3>
+          <div id="custTotal" class="big"></div>
+          <div id="custBand" class="small"></div>
+        </div>
+        <div class="mini">
+          <h3>Rates (service outcomes)</h3>
+          <label>Send-back rate (%) <input id="sendBack" type="number" min="0" max="100" step="0.1" value="2"/></label>
+          <label>Cold plate rate (%) <input id="coldPlate" type="number" min="0" max="100" step="0.1" value="3"/></label>
+          <div class="small">Used in Food Quality Index (below).</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Clientele Segment</h2>
+      <div class="hint">Choose a segment to apply weights to the customer rubric.</div>
+
+      <div class="row">
+        <div class="mini">
+          <h3>Segment</h3>
+          <select id="segmentSel"></select>
+          <div id="segmentWeights" class="small" style="margin-top:10px;"></div>
+        </div>
+        <div class="mini">
+          <h3>Segment Result</h3>
+          <div id="segScore" class="big"></div>
+          <div class="small" id="segDetails"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mini">
+          <h3>Retention + Reviews (simple model)</h3>
+          <div class="small">These are tunable defaults for your sim:</div>
+          <ul class="small">
+            <li><b>Retention Δ</b> = (SegmentScore − 60) × 0.004</li>
+            <li><b>Review chance</b> increases above 75</li>
+            <li><b>Churn risk</b> spikes below 45</li>
+          </ul>
+          <div id="retention" class="small"></div>
+          <div id="reviews" class="small"></div>
+        </div>
+        <div class="mini">
+          <h3>Notes</h3>
+          <div class="small">
+            SegmentScore is built from your 1–5 ratings converted to 0–100 and weighted by segment preferences.
+            This tester is meant to validate tuning and feel before coding the full multiplayer sim.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Flavour Rubric (per dish, 1–10)</h2>
+      <div class="hint">Add dishes, rate flavour categories, set “sales share”, and compute Food Quality Index.</div>
+
+      <div class="row">
+        <div class="mini">
+          <h3>Add dish</h3>
+          <label>Dish name <input id="dishName" type="text" placeholder="e.g., Fish + beurre noisette"/></label>
+          <label>Sales share (%) <input id="dishSales" type="number" min="0" max="100" step="1" value="20"/></label>
+          <button id="btnAddDish" class="primary">Add</button>
+          <div class="small">Tip: keep total sales share ≈ 100% for clearer “top 3” selection.</div>
+        </div>
+
+        <div class="mini">
+          <h3>Food Quality Index</h3>
+          <div id="fqi" class="big"></div>
+          <div class="small" id="fqiDetails"></div>
+          <div class="small">Formula: Avg(top3 dish flavour) − (0.5×SendBack%) − (0.2×ColdPlate%).</div>
+        </div>
+      </div>
+
+      <div id="dishTable"></div>
+    </section>
   </main>
 
-  <footer class="footer">
-    <div>Offline “multiplayer simulator” MVP — built for GitHub Pages. Data saves to localStorage.</div>
+  <footer class="foot small">
+    Works offline. Open <code>index.html</code> or host on GitHub Pages.
   </footer>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
